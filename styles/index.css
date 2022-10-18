@@ -1,0 +1,112 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eef9bf;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: calc(95vw - 80px);
+}
+
+.clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border-radius: 8px;
+  height: 60px;
+  width: 80px;
+  color: #4AF626;
+  position: fixed;
+  right: 5vw;
+  top: 45px;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+p {
+  text-align: center;
+  color: #75B79E;
+  font-weight: 700;
+  font-size: 56px;
+  width: 80%;
+  font-family: "Roboto", sans-serif;
+}
+
+.card {
+  width: 200px;
+  height: 250px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #A7E9AF;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: all 0.5s;
+  transform-style: preserve-3d;
+  /* avoid drag of internal content */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.face:focus {
+  outline: none !important;
+}
+
+.front-face {
+  transform: rotateY(180deg);
+}
+
+.back-face img {
+  height: 100px;
+  width: 100px;
+}
+
+.front-face img {
+  height: 100%;
+  width: 100%;
+}
+
+.selected .front-face {
+  transform: rotateY(0deg);
+}
+
+.selected .back-face {
+  transform: rotateY(180deg);
+}
+
+@media (max-width: 615px) {
+  p {
+    font-size: 36px;
+  }
+}

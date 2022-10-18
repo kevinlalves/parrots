@@ -1,0 +1,26 @@
+{
+  "name": "parrots",
+  "version": "1.0.0",
+  "description": "memory card game",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinlalves/projeto4-Parrots.git"
+  },
+  "keywords": [
+    "flashcard",
+    "game",
+    "memory"
+  ],
+  "author": "Kevin de Lima Alves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinlalves/projeto4-Parrots/issues"
+  },
+  "homepage": "https://github.com/kevinlalves/projeto4-Parrots#readme"
+}
