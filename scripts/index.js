@@ -30,7 +30,7 @@ function delay(miliseconds) {
 
 class ParrotsGame {
   constructor() {
-    this.turns = 0;
+    this.tempi = 0;
     this.foundPairs = 0;
     this.clockID = 0;
     this.selected = undefined;
@@ -80,11 +80,11 @@ class ParrotsGame {
   }
 
   async selectCard(e) {
+    this.tempi++;
     if (!this.selected) {
       e.currentTarget.classList.add("selected");
       this.selected = e.currentTarget;
     } else if (this.selected !== e.currentTarget) {
-      this.turns++;
       const showingFront = this.selected.firstElementChild.firstElementChild;
       const selectedFront = e.currentTarget.firstElementChild.firstElementChild;
       e.currentTarget.classList.add("selected");
@@ -94,7 +94,7 @@ class ParrotsGame {
         this.selected = undefined;
         if (this.foundPairs === this.numPairs) {
           const [ minutesPLayed, secondsPlayed ] = this.timeElapsed();
-          let finalMsg = `Parabéns! Você completou o jogo em ${this.turns} turnos, gastando`;
+          let finalMsg = `Parabéns! Você completou o jogo em ${this.tempi} jogadas, gastando`;
           if (minutesPLayed)
             finalMsg += ` ${minutesPLayed} minuto(s) e`;
           finalMsg += ` ${secondsPlayed} segundos`;
@@ -114,10 +114,8 @@ class ParrotsGame {
   }
 
   askUserRestart() {
-    let tryAgain = prompt("Você deseja reiniciar a partida? (sim ou não)");
-    while (tryAgain !== "sim" && tryAgain !== "não")
-      tryAgain = prompt("Sim e não são as únicas opções!");
-    if (tryAgain === "sim"){
+    const tryAgain = confirm("Deseja reiniciar a partida?");
+    if (tryAgain){
       const page = document.getElementById("page");
       page.clearElementChildren();
       main();
