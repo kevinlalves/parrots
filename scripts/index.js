@@ -54,23 +54,15 @@ class ParrotsGame {
   injectCards(cards) {
     cards.forEach(card => {
       const newCard = document.createElement("div");
-      const frontFace = document.createElement("div");
-      const backFace = document.createElement("div");
       newCard.classList.add("card");
-      frontFace.classList.add("face");
-      frontFace.classList.add("front-face");
-      backFace.classList.add("face");
-      backFace.classList.add("back-face");
-      const frontImage = document.createElement("img");
-      frontImage.src = card;
-      const backImage = document.createElement("img");
-      backImage.src = backFaceImg;
-      frontImage.alt = backImage.alt = altMsg;
-      frontImage.draggable = backImage.draggable = false;
-      frontFace.appendChild(frontImage);
-      backFace.appendChild(backImage);
-      newCard.appendChild(frontFace);
-      newCard.appendChild(backFace);
+      newCard.innerHTML = `
+        <div class="front-face face">
+          <img draggable="false" src=${card} alt=${altMsg}>
+        </div>
+        <div class="back-face face">
+          <img draggable="false" src=${backFaceImg} alt=${altMsg}>
+        </div>
+      `;
       const page = document.getElementById("page");
       page.appendChild(newCard);
       newCard.addEventListener("click", this.selectCard.bind(this));
