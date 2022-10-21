@@ -30,6 +30,7 @@ function delay(miliseconds) {
 
 class ParrotsGame {
   constructor() {
+    this.midPlay = false;
     this.tempi = 0;
     this.foundPairs = 0;
     this.clockID = 0;
@@ -72,6 +73,8 @@ class ParrotsGame {
   }
 
   async selectCard(e) {
+    if (this.midPlay)
+      return;
     this.tempi++;
     if (!this.selected) {
       e.currentTarget.classList.add("selected");
@@ -80,7 +83,6 @@ class ParrotsGame {
       const showingFront = this.selected.firstElementChild.firstElementChild;
       const selectedFront = e.currentTarget.firstElementChild.firstElementChild;
       e.currentTarget.classList.add("selected");
-      console.log(e.currentTarget);
       if (selectedFront.src === showingFront.src) {
         this.foundPairs++;
         this.selected = undefined;
@@ -98,9 +100,11 @@ class ParrotsGame {
         const cardSelected = e.currentTarget;
         const previouslySelected = this.selected;
         this.selected = undefined;
+        this.midPlay = true;
         await delay(1000);
         cardSelected.classList.remove("selected");
         previouslySelected.classList.remove("selected");
+        this.midPlay = false;
       }
     }
   }
