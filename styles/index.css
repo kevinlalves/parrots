@@ -33,7 +33,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width: 80%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -48,8 +48,8 @@ p {
 }
 
 .card {
-  width: 200px;
-  height: 250px;
+  width: 117px;
+  height: 146px;
   margin-right: 20px;
   margin-left: 20px;
   margin-bottom: 40px;
@@ -105,8 +105,11 @@ p {
   transform: rotateY(180deg);
 }
 
-@media (max-width: 615px) {
+@media (max-width: 798px) {
   p {
     font-size: 36px;
+  }
+  .page {
+    width: 90%;
   }
 }

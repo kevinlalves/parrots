@@ -1,4 +1,3 @@
-"use strict";
 const deck = [
   "./images/bobrossparrot.gif",
   "./images/explodyparrot.gif",
@@ -10,14 +9,35 @@ const deck = [
 ];
 const backFaceImg = "./images/back.png";
 const altMsg = "parrot variation";
+const delayView = 1000;
+const clockTick = 1000;
+
+function kevinRandom(arr) {
+  const hash = {};
+  const sorted = [];
+  for (let i = 0; i < arr.length; i++) {
+    hash[i] = arr[i];
+  }
+  let randomIndex;
+  let hashLen = Object.keys(hash).length-1;
+  for (let i = arr.length; i > 0; i--) {
+    randomIndex = Math.floor(Math.random()*i);
+    if (randomIndex === i)
+      randomIndex = i-1;
+    sorted.push(hash[randomIndex]);
+    hash[randomIndex] = hash[hashLen--];
+  }
+  return sorted;
+}
 
 if (typeof Element.prototype.clearElementChildren === "undefined") {
   Object.defineProperty(Element.prototype, "clearElementChildren", {
     configurable: true,
     enumerable: false,
-    value: function() {
-      while(this.firstElementChild)
+    value() {
+      while(this.firstElementChild) {
         this.removeChild(this.lastElementChild);
+      }
     }
   });
 }
@@ -37,19 +57,18 @@ class ParrotsGame {
     this.selected = undefined;
     this.startTime = undefined;
     let numCards = parseInt(prompt("Quantas cartas devem ser usadas? (número par entre 3 e 15)"));
-    while ((numCards !== numCards) || numCards % 2 || numCards < 4 || numCards > 14)
+    while ((numCards !== numCards) || numCards % 2 || numCards < 4 || numCards > 14) {
       numCards = parseInt(prompt("Escolha um número par no intervalo de 4 a 14, incluidos"));
+    }
     this.numPairs = numCards/2;
     this.startPlaying();
   }
 
   startPlaying() {
     const pairs = deck.slice(0, this.numPairs);
-    let cards = pairs.concat(pairs);
-    cards.sort(() => {
-      return Math.random() - 0.5;
-    });
-    this.injectCards(cards);
+    const cards = pairs.concat(pairs);
+    const sortedCards = kevinRandom(cards);
+    this.injectCards(sortedCards);
   }
 
   injectCards(cards) {
@@ -69,12 +88,13 @@ class ParrotsGame {
       newCard.addEventListener("click", this.selectCard.bind(this));
     });
     this.startTime = (new Date()).getTime();
-    this.clockID = setInterval(this.updateClock.bind(this), 1000);
+    this.clockID = setInterval(this.updateClock.bind(this), clockTick);
   }
 
   async selectCard(e) {
-    if (this.midPlay)
+    if (this.midPlay) {
       return;
+    }
     this.tempi++;
     if (!this.selected) {
       e.currentTarget.classList.add("selected");
@@ -86,26 +106,31 @@ class ParrotsGame {
       if (selectedFront.src === showingFront.src) {
         this.foundPairs++;
         this.selected = undefined;
-        if (this.foundPairs === this.numPairs) {
-          const [ minutesPLayed, secondsPlayed ] = this.timeElapsed();
-          let finalMsg = `Parabéns! Você completou o jogo em ${this.tempi} jogadas, gastando`;
-          if (minutesPLayed)
-            finalMsg += ` ${minutesPLayed} minuto(s) e`;
-          finalMsg += ` ${secondsPlayed} segundos`;
-          alert(finalMsg);
-          clearInterval(this.clockID);
-          this.askUserRestart();
-        }
+        this.checkEndGame();
       } else {
         const cardSelected = e.currentTarget;
         const previouslySelected = this.selected;
         this.selected = undefined;
         this.midPlay = true;
-        await delay(1000);
+        await delay(delayView);
         cardSelected.classList.remove("selected");
         previouslySelected.classList.remove("selected");
         this.midPlay = false;
       }
+    }
+  }
+
+  checkEndGame() {
+    if (this.foundPairs === this.numPairs) {
+      const [ minutesPLayed, secondsPlayed ] = this.timeElapsed();
+      let finalMsg = `Parabéns! Você completou o jogo em ${this.tempi} jogadas, gastando`;
+      if (minutesPLayed) {
+        finalMsg += ` ${minutesPLayed} minuto(s) e`;
+      }
+      finalMsg += ` ${secondsPlayed} segundos`;
+      alert(finalMsg);
+      clearInterval(this.clockID);
+      this.askUserRestart();
     }
   }
 
@@ -136,5 +161,5 @@ class ParrotsGame {
 main();
 
 function main() {
-  const game = new ParrotsGame();
+  new ParrotsGame();
 }
